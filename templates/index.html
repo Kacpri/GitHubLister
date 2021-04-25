@@ -30,6 +30,11 @@
             {{ form.submit(class_="btn btn-primary btn-block") }}
         </div>
     </form>
+    <p class="text-danger">
+        {{ error_message }}
+    </p>
+    {% block table %}
+    {% endblock table %}
 
 </div>
 <!-- bootstrap -->
