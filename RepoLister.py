@@ -3,6 +3,7 @@ import bs4
 
 
 def list_repos(name, page_type):
+    name = name.strip()
     page = 1
     repos = []
     repos_on_current_page = -1
