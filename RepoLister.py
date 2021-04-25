@@ -6,17 +6,23 @@ def list_repos(name, page_type):
     page = 1
     repos = []
     repos_on_current_page = -1
+    next_page = None
 
     while repos_on_current_page != 0:
+
         repos_on_current_page = 0
         url = "https://github.com/" + name
         if page_type == '1':
-            if page > 1:
-                break
             url += '?tab=repositories'
 
         if page > 1:
             url += '?page='+str(page)
+
+        if next_page:
+            url = next_page
+
+        next_page = None
+
         res = requests.get(url)
 
         page += 1
@@ -40,6 +46,12 @@ def list_repos(name, page_type):
 
             repos.append((repo, stars))
             repos_on_current_page += 1
+
+        if page_type == '1':
+            buttons = soup.find_all("a", {"class": "BtnGroup-item"})
+            for button in buttons:
+                if 'after' in button["href"]:
+                    next_page = button["href"]
 
     return repos
 
